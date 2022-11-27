@@ -1,18 +1,21 @@
 package com.sxt;
 
 import javax.imageio.ImageIO;
+import javax.jws.WebParam;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
 import java.io.File;
 
 
 public class SetInterface {
     JFrame jf = new JFrame("超级玛丽JAVA版");
-
+    static int ModeStatus=0;
+    static int MusicStatus=0;
     final int WIDTH = 800;
     final int HEIGHT = 600;
     static int OpMode=0;
@@ -44,10 +47,28 @@ public class SetInterface {
         back.add(backToStart);
         back.add(Box.createHorizontalStrut(650));
         //创建选择按钮
-        JRadioButton WASD = new JRadioButton("WASD操作方式",true);
-        JRadioButton OpTwo = new JRadioButton("上下左右操作方式",false);
-        JRadioButton On = new JRadioButton("开声音",true);
-        JRadioButton Off= new JRadioButton("静音",false);
+        JRadioButton WASD = new JRadioButton("WASD操作方式");
+        JRadioButton OpTwo = new JRadioButton("上下左右操作方式");
+        if(ModeStatus==0) {
+            WASD.setSelected(true);
+            OpTwo.setSelected(false);
+        }
+        else{
+            WASD.setSelected(false);
+            OpTwo.setSelected(true);
+        }
+
+        JRadioButton On = new JRadioButton("开声音");
+        JRadioButton Off= new JRadioButton("静音");
+        if(MusicStatus==0) {
+            On.setSelected(true);
+            Off.setSelected(false);
+        }
+        else{
+            On.setSelected(false);
+            Off.setSelected(true);
+        }
+
         Font fontJ=new Font("黑体",Font.BOLD,25);
         WASD.setForeground(Color.BLACK);
         WASD.setContentAreaFilled(false);
@@ -80,6 +101,7 @@ public class SetInterface {
             public void stateChanged(ChangeEvent e) {
                 if(WASD.isSelected()){
                     OpMode=0;
+                    ModeStatus=0;
                 }
             }
         });
@@ -88,6 +110,7 @@ public class SetInterface {
             public void stateChanged(ChangeEvent e) {
                 if(OpTwo.isSelected()){
                     OpMode=1;
+                    ModeStatus=1;
                 }
             }
         });
@@ -98,6 +121,7 @@ public class SetInterface {
                     StartInterface.music.setMusic(System.getProperty("user.dir") + "/src/Music/music.wav");
                     StartInterface.music.start();
                     voice=1;
+                    MusicStatus=0;
                 }
             }
         });
@@ -107,6 +131,7 @@ public class SetInterface {
                 if(Off.isSelected()){
                     StartInterface.music.stop();
                     voice=0;
+                    MusicStatus=1;
                 }
             }
         });
